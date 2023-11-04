@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wave Interference Simulation</title>
+    <style>
+        #canvas {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        const numWaves = 2;
+        const amplitude = 50;
+        const frequency = 0.02;
+        const waveSpeed = 2;
+        const phaseShift = [0, Math.PI]; // Phases of the two waves
+
+        let time = 0;
+
+        function drawWave(xOffset) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.beginPath();
+
+            for (let x = 0; x < canvas.width; x++) {
+                let y = 0;
+
+                for (let i = 0; i < numWaves; i++) {
+                    y += amplitude * Math.sin((x + xOffset * i) * frequency + phaseShift[i]);
+                }
+
+                context.lineTo(x, canvas.height / 2 - y);
+            }
+
+            context.strokeStyle = "#0074cc";
+            context.lineWidth = 2;
+            context.stroke();
+        }
+
+        function animate() {
+            time += waveSpeed;
+            drawWave(time);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
